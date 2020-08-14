@@ -8,9 +8,7 @@ from api import serializers
 from api.models import Event
 
 
-class test(APIView):
-    permission_classes = (IsAuthenticated,)
-
+class ping(APIView):
     def get(self, request):
         content = {'message': 'pong'}
         return Response(content, status=status.HTTP_200_OK)
