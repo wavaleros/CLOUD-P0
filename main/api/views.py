@@ -20,14 +20,22 @@ class EventsView(APIView):
     def get(self, request):
         events = Event.objects.filter(user=request.user)
         serializer = serializers.EventSerializer(events, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        content = {'content': serializer.data, 'message': 'SUCCESS', 'status': 'SUCCESSFUL'}
+        return Response(data=content, status=status.HTTP_200_OK)
 
     def post(self, request):
-        serializer = serializers.EventSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save(user=request.user)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            serializer = serializers.EventSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save(user=request.user)
+                content = {'content': serializer.data, 'message': 'SUCCESS', 'status': 'SUCCESSFUL'}
+                return Response(data=content, status=status.HTTP_201_CREATED)
+            content = {'content': '', 'message': serializer.errors, 'status': 'FAILURE'}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            content = {'message': 'Internal error', 'status': 'FAILED'}
+            print(e)
+            return Response(data=content, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class EventsDetailView(APIView):
@@ -37,20 +45,29 @@ class EventsDetailView(APIView):
         event = Event.objects.filter(pk=event_id).first()
         if event:
             serializer = serializers.EventSerializer(event)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            content = {'content': serializer.data, 'message': 'SUCCESS', 'status': 'SUCCESSFUL'}
+            return Response(content, status=status.HTTP_200_OK)
         else:
-            return Response(status=status.HTTP_204_NO_CONTENT)
+            content = {'content': '', 'message': 'SUCCESS', 'status': 'SUCCESSFUL'}
+            return Response(content, status=status.HTTP_204_NO_CONTENT)
 
     def delete(self, request, event_id):
         event = Event.objects.filter(pk=event_id).first()
         if event:
             event.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        content = {'content': '', 'message': 'SUCCESS', 'status': 'SUCCESSFUL'}
+        return Response(content, status=status.HTTP_204_NO_CONTENT)
 
     def put(self, request, event_id):
+        request_user = request.user
         event = Event.objects.filter(pk=event_id).first()
+        if request_user.id != event.user.id:
+            content = {'content': '', 'message': 'Unauthorized', 'status': 'FAILURE'}
+            return Response(content, status=status.HTTP_403_FORBIDDEN)
         serializer = serializers.EventSerializer(event, data=request.data)
         if serializer.is_valid():
             serializer.save(user=request.user)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            content = {'content': serializer.data, 'message': 'SUCCESS', 'status': 'SUCCESSFUL'}
+            return Response(content, status=status.HTTP_200_OK)
+        content = {'content': '', 'message': serializer.errors, 'status': 'FAILURE'}
+        return Response(content, status=status.HTTP_400_BAD_REQUEST)
