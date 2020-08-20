@@ -1,10 +1,10 @@
 # Create your views here.
 from django.contrib.auth import authenticate
 from rest_framework import status
-from rest_framework.authtoken.models import Token
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework_jwt.serializers import jwt_payload_handler, jwt_encode_handler
 
 from users import serializers
 from users.models import User
@@ -45,9 +45,10 @@ class UserLogin(APIView):
                 return Response(data=content, status=status.HTTP_400_BAD_REQUEST)
 
             user = authenticate(username=request.data['username'], password=request.data['password'])
+
             if user is not None:
-                token = Token.objects.get_or_create(user=user)
-                content = {'content': {'token': token[0].key}, 'message': 'SUCCESS', 'status': 'SUCCESSFUL'}
+                token = jwt_encode_handler(jwt_payload_handler(user))
+                content = {'content': {'token': token}, 'message': 'SUCCESS', 'status': 'SUCCESSFUL'}
                 return Response(data=content, status=status.HTTP_200_OK)
             else:
                 content = {'message': 'Invalid credentials', 'status': 'SUCCESSFUL'}
