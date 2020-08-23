@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'corsheaders',
     'api',
     'users',
 ]
@@ -51,7 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'main.urls'
@@ -136,12 +137,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = [
     'http://localhost',
-    'http://172.24.98.185',
-]
-CORS_ALLOWED_ORIGIN_REGEXES = [
-    'http://localhost.*',
-    '.*',
-]
+]  # If this is used, then not need to use `CORS_ORIGIN_ALLOW_ALL = True`
 CORS_ALLOW_HEADERS = [
     'accept',
     'accept-encoding',
