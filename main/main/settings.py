@@ -133,23 +133,6 @@ REST_FRAMEWORK = {
 }
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = False
-CORS_ALLOW_HEADERS = [
-    'accept',
-    'accept-encoding',
-    'accept-language'
-    'authorization',
-    'content-type',
-    'dnt',
-    'origin',
-    'user-agent',
-    'x-csrftoken',
-    'x-requested-with',
-    'access-control-allow-origin',
-    'Access-Control-Request-Method',
-    'referer',
-    'Access-Control-Request-Headers'
-
-]
 CORS_ALLOW_METHODS = [
     'DELETE',
     'GET',
