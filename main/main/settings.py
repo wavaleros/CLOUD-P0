@@ -134,9 +134,10 @@ REST_FRAMEWORK = {
 }
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGIN_REGEXES =[
-    r".*"
-]  # If this is used, then not need to use `CORS_ORIGIN_ALLOW_ALL = True`
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost',
+    'http://172.24.98.185',
+]
 CORS_ALLOW_HEADERS = [
     'accept',
     'accept-encoding',
