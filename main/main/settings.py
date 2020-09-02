@@ -136,6 +136,7 @@ CORS_ALLOW_CREDENTIALS = False
 CORS_ALLOW_HEADERS = [
     'accept',
     'accept-encoding',
+    'accept-language'
     'authorization',
     'content-type',
     'dnt',
@@ -144,6 +145,10 @@ CORS_ALLOW_HEADERS = [
     'x-csrftoken',
     'x-requested-with',
     'access-control-allow-origin',
+    'Access-Control-Request-Method',
+    'referer',
+    'Access-Control-Request-Headers'
+
 ]
 CORS_ALLOW_METHODS = [
     'DELETE',
