@@ -138,6 +138,10 @@ CORS_ORIGIN_WHITELIST = [
     'http://localhost',
     'http://172.24.98.185',
 ]
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    'http://localhost.*',
+    '.*',
+]
 CORS_ALLOW_HEADERS = [
     'accept',
     'accept-encoding',
