@@ -132,7 +132,7 @@ REST_FRAMEWORK = {
     ],
 }
 CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_CREDENTIALS = False
 CORS_ORIGIN_WHITELIST = [
     'http://localhost',
     'http://172.24.98.185'
