@@ -134,9 +134,7 @@ REST_FRAMEWORK = {
 }
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost',
-]  # If this is used, then not need to use `CORS_ORIGIN_ALLOW_ALL = True`
+
 CORS_ALLOW_HEADERS = [
     'accept',
     'accept-encoding',
